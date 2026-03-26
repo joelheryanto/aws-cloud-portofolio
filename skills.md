@@ -1,6 +1,6 @@
 #My Skills
 ##Cloud
--AWS Cloud Pratitioner (in progress)
+AWS Cloud Practitioner (in progress)
 ##DevOps
 Git & GitHub
 CI/CD (coming soon)
