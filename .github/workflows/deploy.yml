@@ -1,23 +1,31 @@
 name: Deploy to EC2
 
 on:
- push:
-   branches:
-     - main
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on:ubuntu-latest
     steps:
-     - name: Checkout code
-       uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-     - name: Deploy to EC2
-       uses: appleboy/ssh-action@v1.0.3
-       with:
-         host: ${{ secrets.EC2_HOST }}
-         username: ${{ secrets.EC2_USER }}
-         key: ${{ secrets.EC2_KEY }}
-         port: 22
-         script: |
-           echo "Connected to EC2!"
+      - name: Copy file to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC@_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "index.html"
+          target: "/home/ec2-user/app"
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            sudo cp /home/ec2-user/app/index.html /var/www/html/index.html
