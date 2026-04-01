@@ -1,0 +1,19 @@
+Name: Deploy to EC2
+on:
+push:
+branches:
+- main
+jobs:
+deploy:
+runs-on: Ubuntu-latest
+steps:
+- name: Checkout code
+  uses: actions/checkout@v3
+- name: Deploy to EC2
+  uses: appleboy/ssh-action@master
+  with:
+   host: ${{ secrets.EC2_HOST }}
+   username: ${{ secrets.EC2_USER }}
+   key: ${{ secrets.EC2_KEY }}
+   script: |
+     sudo cp /home/ec2-user/app/index.html /var/www/html/index.html
